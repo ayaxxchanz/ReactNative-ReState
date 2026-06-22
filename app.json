@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.restate"
+      "package": "host.exp.exponent"
     },
     "web": {
       "bundler": "metro",
