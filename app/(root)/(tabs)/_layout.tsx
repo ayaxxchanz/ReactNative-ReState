@@ -10,7 +10,6 @@ const TabIcon = ({ focused, icon, title }: { focused: boolean, icon: any, title:
         style={{ width: 24, height: 24 }}
         tintColor={focused ? '#0061ff' : '#666876'}
         resizeMode='contain'
-        className='size-6'
         />
 
         <Text className={`${focused ? 'text-primary-300 font-rubik-medium' : 'text-black-200 font-rubik'} text-xs w-full text-center mt-1`}>
