@@ -70,7 +70,10 @@ export async function getCurrentUser(){
         const response = await account.get()
 
         if(response.$id){
-            const userAvatar = avatar.getInitials({name: response.name})
+            const userAvatar = new URL(`${client.config.endpoint}/avatars/initials`);
+            
+            userAvatar.searchParams.append('name', response.name);
+            userAvatar.searchParams.append('project', client.config.project);
 
             return{
                 ...response,
