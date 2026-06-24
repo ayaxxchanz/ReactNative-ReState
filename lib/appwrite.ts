@@ -1,6 +1,6 @@
 import * as Linking from 'expo-linking';
 import { openAuthSessionAsync } from 'expo-web-browser';
-import { Account, Avatars, Client, Databases, OAuthProvider } from 'react-native-appwrite';
+import { Account, Avatars, Client, OAuthProvider, Query, TablesDB } from 'react-native-appwrite';
 
 export const config = {
     platform: 'host.exp.exponent',
@@ -19,7 +19,8 @@ client.setPlatform(config.platform!).setEndpoint(config.endpoint!).setProject(co
 
 export const avatar = new Avatars(client);
 export const account = new Account(client);
-export const databases = new Databases(client);
+// export const databases = new Databases(client);
+export const databases = new TablesDB(client)
 
 
 
@@ -91,5 +92,59 @@ export async function getCurrentUser(){
     } catch (error) {
         console.log(error)
         return null
+    }
+}
+
+export async function getLatestProperties() {
+    try {
+        const result = await databases.listRows({
+            databaseId: config.databaseId!,
+            tableId: config.propertiesCollectionId!,
+            queries: [
+                Query.orderAsc('$createdAt'), 
+                Query.limit(5)
+            ]
+        });
+        
+        return result.rows;
+
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export async function getProperties({filter, query,limit}: {
+    filter: string;
+    query: string;
+    limit?: number;
+}) {
+    try {
+        const buildQuery = [Query.orderDesc("$createdAt")];
+
+        if (filter && filter !== "All")
+            buildQuery.push(Query.equal("type", filter));
+
+        if (query)
+            buildQuery.push(
+                Query.or([
+                    Query.search("name", query),
+                    Query.search("address", query),
+                    Query.search("type", query),
+                ])
+            );
+
+        if (limit) buildQuery.push(Query.limit(limit));
+
+        const result = await databases.listRows({
+            databaseId: config.databaseId!,
+            tableId: config.propertiesCollectionId!,
+            queries: buildQuery
+        });
+
+        return result.rows;
+    } catch (error) {
+        console.error(error);
+        return [];
     }
 }
