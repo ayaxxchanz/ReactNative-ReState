@@ -1,7 +1,7 @@
 import icons from '@/constants/icons'
 import images from '@/constants/images'
 import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, Text, View } from 'react-native'
 import { Models } from 'react-native-appwrite'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 export const FeaturedCard = ({ item: { image, rating, name, address, price }, onPress }: Props) => {
     return (
-        <TouchableOpacity onPress={onPress} className="flex flex-col items-start w-60 h-80 relative">
+        <Pressable onPress={onPress} className="flex flex-col items-start w-60 h-80 relative">
             <Image source={{ uri: image }} className="size-full rounded-2xl" />
             <Image source={images.cardGradient} className="size-full rounded-2xl absolute bottom-0" />
 
@@ -37,12 +37,12 @@ export const FeaturedCard = ({ item: { image, rating, name, address, price }, on
                     <Image source={icons.heart} className="w-5 h-5" />
                 </View>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 export const Card = ({ item: { image, rating, name, address, price }, onPress }: Props) => {
     return (
-        <TouchableOpacity onPress={onPress} className="flex-1 w-full mt-4 px-3 py-4 bg-white shadow-lg shadow-black-100/70 rounded-lg relative">
+        <Pressable onPress={onPress} className="flex-1 w-full mt-4 px-3 py-4 bg-white shadow-lg shadow-black-100/70 rounded-lg relative">
             <View className="flex flex-row items-center absolute top-5 right-5 bg-white/90 rounded-full z-50 px-2">
                 <Image source={icons.star} className="w-2.5 h-2.5" />
                 <Text className="text-xs font-rubik-bold text-primary-300 ml-0.5">
@@ -67,6 +67,6 @@ export const Card = ({ item: { image, rating, name, address, price }, onPress }:
                     <Image source={icons.heart} className="w-5 h-5 mr-2" tintColor="#191321" />
                 </View>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
