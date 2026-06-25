@@ -148,3 +148,26 @@ export async function getProperties({filter, query,limit}: {
         return [];
     }
 }
+
+export async function getPropertyById({ id }: { id: string }) {
+    try {
+        const result = await databases.getRow({
+            databaseId: config.databaseId!,
+            tableId: config.propertiesCollectionId!,
+            rowId: id,
+            // Explicitly request the agent relationship field
+            queries: [
+                Query.select([
+                "*",
+                "agent.*",
+                "reviews.*",
+                ])
+            ]
+        });
+        return result;
+
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
